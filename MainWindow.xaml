@@ -1,0 +1,58 @@
+﻿<!--
+    Определить класс Product для хранения информации о товаре. 
+    Класс должен содержать характеристики:
+            Название товара (строка), 
+            Цена (число), 
+            Изображение (строка - путь к файлу с изображением), 
+            Категория (перечисление, возможные значения – Еда, Бытовая техника). 
+    Разработать шаблон данных для отображения списка товаров в компоненте ListBox. 
+    При помощи триггеров определите разный шаблон для товаров категории Еда и категории Бытовая техника.
+    -->
+<Window x:Class="Lab14___WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab14___WpfApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="400" Width="500">
+    <Window.Resources>
+        <DataTemplate x:Key="myTemplate">
+            <Border x:Name="border" BorderBrush="Black" BorderThickness="2" Margin="5" Padding="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>                   
+                    <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Width="50" Height="50" Source="{Binding Path=ImagePathProduct}"/>  
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Название:"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=NameProduct}"/>  
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="Цена в руб.:"/>
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=PriceProduct}"/>                    
+                </Grid>
+            </Border>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=CategoryProduct}">
+                    <DataTrigger.Value>
+                        Food
+                    </DataTrigger.Value>
+                    <Setter TargetName="border" Property="BorderBrush" Value="Red"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>        
+    </Window.Resources>
+    <StackPanel>
+        <TextBlock FontSize="20" Text="Список продуктов:"/>
+        <ListBox 
+            x:Name="lstBox" 
+            Width="400" 
+            Margin="10" 
+            ItemTemplate="{StaticResource myTemplate}"
+            HorizontalContentAlignment="Stretch"/>
+    </StackPanel>
+</Window>
